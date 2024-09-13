@@ -1,6 +1,7 @@
 package com.example.nxtstayz.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class HotelJpaService implements HotelRepository {
     private RoomJpaRepository roomJpaRepository;
 
     @Override
-    public ArrayList<Hotel> getAllHotels() {
+    public ArrayList<Hotel> getHotels() {
         List<Hotel> hotellist = hotelJpaRepository.findAll();
         ArrayList<Hotel> hotels = new ArrayList<>(hotellist);
         return hotels;
@@ -42,7 +43,7 @@ public class HotelJpaService implements HotelRepository {
     @Override
     public Hotel updateHotel(int hotelId, Hotel hotel) {
         try {
-            Hotel newhotel = hotelJpaRepository.findById(hotelId);
+            Hotel newhotel = hotelJpaRepository.findById(hotelId).get();
             if (hotel.getHotelName() != null) {
                 newhotel.setHotelName(hotel.getHotelName());
             }
@@ -53,24 +54,24 @@ public class HotelJpaService implements HotelRepository {
                 newhotel.setRating(hotel.getRating());
             }
             return hotelJpaRepository.save(newhotel);
-        } catch (exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
-    @Override 
-    public deleteHotel(int hotelId){
-        try{
-            Hotel hotel= hotelJpaRepository.findById(hotelId);
-            List<Room> roomList= roomJpaRepository.findByHotel(hotel);
-            
-            for(Room room: roomList){
+    @Override
+    public void deleteHotel(int hotelId) {
+        try {
+            Hotel hotel = hotelJpaRepository.findById(hotelId).get();
+            List<Room> roomList = roomJpaRepository.findByHotel(hotel);
+
+            for (Room room : roomList) {
                 room.setHotel(null);
             }
             roomJpaRepository.saveAll(roomList);
             hotelJpaRepository.deleteById(hotelId);
-        }catch(Exception e){
-            throe new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
@@ -78,7 +79,7 @@ public class HotelJpaService implements HotelRepository {
     @Override
     public List<Room> getHotelRoom(int hotelId) {
         try {
-            Hotel hotel = hotelJpaRepository.findById(hotelId);
+            Hotel hotel = hotelJpaRepository.findById(hotelId).get();
             return roomJpaRepository.findByHotel(hotel);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

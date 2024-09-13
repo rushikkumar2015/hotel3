@@ -12,14 +12,14 @@ import com.example.nxtstayz.model.*;
 
 @Service
 public class RoomJpaService implements RoomRepository {
-
-    @Autowired
-    private HotelJpaRepository hotelJpaRepository;
     @Autowired
     private RoomJpaRepository roomJpaRepository;
 
+    @Autowired
+    private HotelJpaRepository hotelJpaRepository;
+
     @Override
-    public ArrayList<Room> getAllRooms() {
+    public ArrayList<Room> getRooms() {
         List<Room> roomlist = roomJpaRepository.findAll();
         ArrayList<Room> rooms = new ArrayList<>(roomlist);
         return rooms;
@@ -28,7 +28,7 @@ public class RoomJpaService implements RoomRepository {
     @Override
     public Room getRoomById(int roomId) {
         try {
-            Room room = roomJpaRepository.findById(roomId);
+            Room room = roomJpaRepository.findById(roomId).get();
             return room;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -38,38 +38,38 @@ public class RoomJpaService implements RoomRepository {
     @Override
     public Room addRoom(Room room) {
         try {
-            int hotelId = room.getHotel().getHotelById();
+            int hotelId = room.getHotel().getHotelId();
             Hotel hotel = hotelJpaRepository.findById(hotelId).get();
             room.setHotel(hotel);
             return roomJpaRepository.save(room);
-        } catch (NoSuchException e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
-    @Override 
-    public Room updateRoom(int roomId,Room room){
-        try{
-            Room newroom =roomJpaRepository.findById(roomId);
-            if(room.getRoomName()!=null){
-                newroom.setRoomName(room.getRoomName());
+    @Override
+    public Room updateRoom(int roomId, Room room) {
+        try {
+            Room newroom = roomJpaRepository.findById(roomId).get();
+            if (room.getRoomNumber() != null) {
+                newroom.setRoomNumber(room.getRoomNumber());
             }
-            if(room.getRoomType()!=null){
-                newroom.setType(room.getRoomType();)
+            if (room.getRoomType() != null) {
+                newroom.setRoomType(room.getRoomType());
             }
-            if(room.getPrice()!=0){
+            if (room.getPrice() != 0) {
                 newroom.setPrice(room.getPrice());
             }
-            if(room.getHotel()!=null){
-                Hotel hotel= room.getByHotel(hotel);
-                int hotelId= hotel.getHotelId();
-                Hotel newhotel= hotelJpaRepository.findById(hotelId).get();
+            if (room.getHotel() != null) {
+                Hotel hotel = room.getHotel(hotel);
+                int hotelId = hotel.getHotelId();
+                Hotel newhotel = hotelJpaRepository.findById(hotelId).get();
                 newroom.setHotel(newhotel);
 
             }
             return roomJpaRepository.save(newroom);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 

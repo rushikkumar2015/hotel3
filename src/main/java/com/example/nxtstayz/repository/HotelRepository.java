@@ -6,7 +6,7 @@ import com.example.nxtstayz.model.*;
 import java.util.*;
 
 public interface HotelRepository {
-  ArrayList<Hotel> getAllHotels();
+  ArrayList<Hotel> getHotels();
 
   Hotel getHotelById(int hotelId);
 

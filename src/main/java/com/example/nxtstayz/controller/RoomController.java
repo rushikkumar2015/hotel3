@@ -6,26 +6,27 @@ import java.util.ArrayList;
 import com.example.nxtstayz.model.*;
 import com.example.nxtstayz.service.RoomJpaService;
 
+@RestController
 public class RoomController {
     @Autowired
 
     private RoomJpaService roomJpaService;
 
     @GetMapping("/hotels/rooms")
-    public ArrayList<Room> getAllRooms() {
-        return roomJpaService.getAllRooms();
+    public ArrayList<Room> getRooms() {
+        return roomJpaService.getRooms();
     }
 
     @GetMapping("/hotels/rooms/{roomId}")
 
     public Room getRoomById(@PathVariable("roomId") int roomId) {
-        return RoomJpaService.getRoomById(roomId);
+        return roomJpaService.getRoomById(roomId);
 
     }
 
     @PostMapping("/hotels/rooms")
     public Room addRoom(@RequestBody Room room) {
-        return RoomJpaService.addRoom(room);
+        return roomJpaService.addRoom(room);
 
     }
 
@@ -36,7 +37,7 @@ public class RoomController {
 
     @DeleteMapping("/hotels/rooms/{roomId}")
     public void deleteRoom(@PathVariable("roomId") int roomId) {
-        RoomJpaService.deleteHotel(roomId);
+        roomJpaService.deleteRoom(roomId);
 
     }
 

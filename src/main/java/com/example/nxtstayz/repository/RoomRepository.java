@@ -3,9 +3,8 @@ package com.example.nxtstayz.repository;
 import java.util.ArrayList;
 
 import com.example.nxtstayz.model.*;
-
 public interface RoomRepository {
-  ArrayList<Room> getAllRooms();
+  ArrayList<Room> getRooms();
 
   Room getRoomById(int roomId);
 
