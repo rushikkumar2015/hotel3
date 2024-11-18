@@ -3,43 +3,42 @@ package com.example.nxtstayz.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
+
 import com.example.nxtstayz.model.*;
 import com.example.nxtstayz.service.HotelJpaService;
 
 @RestController
 public class HotelController {
     @Autowired
-    private HotelJpaService hoteljpaservice;
+    private HotelJpaService hotelJpaService;
 
     @GetMapping("/hotels")
     public ArrayList<Hotel> getHotels() {
-        return hoteljpaservice.getHotels();
+        return hotelJpaService.getHotels();
     }
 
     @GetMapping("/hotels/{hotelId}")
     public Hotel getHotelById(@PathVariable("hotelId") int hotelId) {
-        return hoteljpaservice.getHotelById(hotelId);
+        return hotelJpaService.getHotelById(hotelId);
     }
 
     @PostMapping("/hotels")
     public Hotel addHotel(@RequestBody Hotel hotel) {
-        return hoteljpaservice.addHotel(hotel);
+        return hotelJpaService.addHotel(hotel);
     }
 
     @PutMapping("/hotels/{hotelId}")
     public Hotel updateHotel(@PathVariable("hotelId") int hotelId, @RequestBody Hotel hotel) {
-        return hoteljpaservice.updateHotel(hotelId, hotel);
+        return hotelJpaService.updateHotel(hotelId, hotel);
     }
 
     @DeleteMapping("/hotels/{hotelId}")
     public void deleteHotel(@PathVariable("hotelId") int hotelId) {
-        hoteljpaservice.deleteHotel(hotelId);
-
+        hotelJpaService.deleteHotel(hotelId);
     }
 
     @GetMapping("/hotels/{hotelId}/rooms")
     public List<Room> getHotelRoom(@PathVariable("hotelId") int hotelId) {
-        return hoteljpaservice.getHotelRoom(hotelId);
+        return hotelJpaService.getHotelRoom(hotelId);
     }
-
 }

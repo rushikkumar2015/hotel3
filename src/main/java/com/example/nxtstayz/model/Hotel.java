@@ -20,6 +20,7 @@ public class Hotel {
     private int rating;
 
     public Hotel() {
+
     }
 
     public Hotel(int hotelId, String hotelName, String location, int rating) {
@@ -60,5 +61,4 @@ public class Hotel {
     public void setRating(int rating) {
         this.rating = rating;
     }
-
 }
